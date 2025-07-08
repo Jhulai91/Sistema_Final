@@ -2,13 +2,11 @@ package com.proyecto.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
 @Controller
-public class UsuarioController {
+public class AdminController {
 
-	 @GetMapping("/login")
-	    public String login() {
-	        return "login"; // esto busca templates/login.html
+	 @GetMapping("/admin/home")
+	    public String adminHome() {
+	        return "admin-home";
 	    }
-	
 }
