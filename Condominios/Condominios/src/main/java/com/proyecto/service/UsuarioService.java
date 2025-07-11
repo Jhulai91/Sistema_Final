@@ -1,5 +1,13 @@
 package com.proyecto.service;
 
-public interface UsuarioService {
+import java.util.List;
 
+import com.proyecto.entity.Propietario;
+import com.proyecto.entity.Usuario;
+
+public interface UsuarioService {
+	List<Usuario> findAllUsuario();
+    Usuario saveUsuario(Usuario usuario);
+    void deleteUsuario(int id);
+    Usuario updateUsuario(int id, Usuario usuario);
 }

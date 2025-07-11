@@ -27,6 +27,7 @@ public class SecurityConfig {
 	            .authorizeHttpRequests(auth -> auth
 	                .requestMatchers("/login", "/css/**").permitAll()
 	                .requestMatchers("/images/**").permitAll()
+	                .requestMatchers("/usuario/registro", "/registro").permitAll()  // ← AÑADIR ESTA LÍNEA
 	                .requestMatchers("/admin/**").hasRole("ADMINISTRADOR")
 	                .requestMatchers("/propietario/**").hasRole("PROPIETARIO")
 	                .anyRequest().authenticated()
