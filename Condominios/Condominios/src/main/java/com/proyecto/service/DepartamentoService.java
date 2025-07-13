@@ -9,6 +9,8 @@ public interface DepartamentoService {
 
 	List<Departamento> findAllDepartamento();
     Departamento saveDepartamento(Departamento departamento);
-    void deleteDepartamento(int id);
-    Departamento updateDepartamento(int id, Departamento detalle);
+    void deleteDepartamento(long id);
+    Departamento updateDepartamento(long id, Departamento detalle);
+    
+    List<Departamento> findByPropietario(Propietario propietario);
 }

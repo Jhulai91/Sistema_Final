@@ -10,19 +10,24 @@ import com.proyecto.entity.Usuario;
 import com.proyecto.repository.UsuarioRepository;
 import com.proyecto.security.CustomUserDetails;
 import com.proyecto.service.CustomUserDetailsService;
+
 @Service
 @Transactional
-public class CustomUserDetailsServiceImpl implements CustomUserDetailsService{
+public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 
-	 @Autowired
-	    private UsuarioRepository usuarioRepository;
-	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
 		Usuario usuario = usuarioRepository.findByEmail(email);
-                
-        return new CustomUserDetails(usuario);
+		
+		if (usuario == null) {
+			throw new UsernameNotFoundException("Usuario no encontrado con email: " + email);
+		}
+		
+		return new CustomUserDetails(usuario);
 	}
 
 }

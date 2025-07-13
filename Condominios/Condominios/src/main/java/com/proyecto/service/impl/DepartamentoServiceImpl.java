@@ -31,18 +31,23 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 	}
 
 	@Override
-	public void deleteDepartamento(int id) {
+	public void deleteDepartamento(long id) {
 		// TODO Auto-generated method stub
 		departamentoRepository.deleteById(id);
 	}
 
 	@Override
-	public Departamento updateDepartamento(int id, Departamento detalle) {
+	public Departamento updateDepartamento(long id, Departamento detalle) {
 		// TODO Auto-generated method stub
 		 Departamento departamento = departamentoRepository.findById(id)
 	                .orElseThrow(() -> new RuntimeException("Departamento no encoentrado :: " + id));
 	        
 	        return departamentoRepository.save(departamento);
 	}
+
+    @Override
+    public List<Departamento> findByPropietario(Propietario propietario) {
+        return departamentoRepository.findByPropietario(propietario);
+    }
 
 }
