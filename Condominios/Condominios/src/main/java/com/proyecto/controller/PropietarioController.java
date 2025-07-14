@@ -13,10 +13,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.proyecto.entity.Alicuota;
 import com.proyecto.entity.Departamento;
 import com.proyecto.entity.Propietario;
 import com.proyecto.entity.Usuario;
 import com.proyecto.repository.UsuarioRepository;
+import com.proyecto.service.AlicuotaService;
 import com.proyecto.service.DepartamentoService;
 import com.proyecto.service.PropietarioService;
 import com.uisrael.gestion_biblioteca.entity.Autor;
@@ -28,14 +30,17 @@ public class PropietarioController {
 	private final UsuarioRepository usuarioRepo;
 	private final PropietarioService propietarioService;
 	private final DepartamentoService departamentoService;
+	private final AlicuotaService alicuotaService;
 	
 	public PropietarioController(
             UsuarioRepository usuarioRepo,
             PropietarioService propietarioService,
-            DepartamentoService departamentoService) { // Añadir DepartamentoService al constructor
+            DepartamentoService departamentoService,
+            AlicuotaService alicuotaService) { 
 		this.usuarioRepo = usuarioRepo;
         this.propietarioService = propietarioService;
-        this.departamentoService = departamentoService; // Asignar el servicio
+        this.departamentoService = departamentoService;
+        this.alicuotaService = alicuotaService; 
 	}
 
 	@GetMapping("/propietario/home")
@@ -60,28 +65,74 @@ public class PropietarioController {
 	
     @GetMapping("/propietario/informacion") 
     public String propietarioInformacion(Model model) {
-        // 1. Obtener el email del usuario autenticado desde Spring Security
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String emailUsuarioAutenticado = authentication.getName(); // Esto debería ser el email del usuario
+        String emailUsuarioAutenticado = authentication.getName();
 
-        // 2. Usar el PropietarioService para obtener la información del propietario
         Optional<Propietario> propietarioOptional = propietarioService.obtenerPropietarioPorEmailUsuario(emailUsuarioAutenticado);
 
         if (propietarioOptional.isPresent()) {
             Propietario propietario = propietarioOptional.get();
             model.addAttribute("propietario", propietario);
-            // Ya el @ModelAttribute("usuarioAutenticado") añade el objeto Usuario al modelo.
-            // Pero para ser explícitos o si no usas @ModelAttribute para este caso, puedes añadirlo aquí:
-            model.addAttribute("usuario", propietario.getUsuario()); // Añadimos el objeto Usuario asociado al Propietario
+            model.addAttribute("usuario", propietario.getUsuario()); 
 
             List<Departamento> departamentos = departamentoService.findByPropietario(propietario);
-            model.addAttribute("departamentos", departamentos); // Añadir la lista de departamentos al modelo
+            model.addAttribute("departamentos", departamentos);
    
-            return "propietario-informacion"; // Mapea a src/main/resources/templates/propietario-informacion.html
+            return "propietario-informacion"; 
         } else {
-            // Manejar el caso donde no se encuentra el propietario
+
             model.addAttribute("mensajeError", "No se encontró la información de propietario para el usuario actual.");
-            return "error"; // Puedes redirigir a una página de error genérica o mostrar un mensaje en la misma página.
+            return "error"; 
         }
     }
+    
+    @GetMapping("/propietario/alicuotas/canceladas")
+    public String verAlicuotasCanceladas(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String emailUsuarioAutenticado = authentication.getName();
+
+        Optional<Propietario> propietarioOptional = propietarioService.obtenerPropietarioPorEmailUsuario(emailUsuarioAutenticado);
+
+        if (propietarioOptional.isPresent()) {
+            Propietario propietario = propietarioOptional.get();
+            model.addAttribute("propietario", propietario);
+            model.addAttribute("usuario", propietario.getUsuario()); 
+
+            List<Departamento> departamentos = departamentoService.findByPropietario(propietario);
+
+            List<Alicuota> alicuotasCanceladas = alicuotaService.findAlicuotasCanceladasByDepartamentos(departamentos);
+            model.addAttribute("alicuotasCanceladas", alicuotasCanceladas); 
+
+            return "alicuotas-canceladas-propietario"; 
+        } else {
+            model.addAttribute("mensajeError", "No se encontró la información de propietario para el usuario actual.");
+            return "error";
+        }
+    }
+    
+    @GetMapping("/propietario/alicuotas") 
+    public String verAlicuotas(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String emailUsuarioAutenticado = authentication.getName();
+
+        Optional<Propietario> propietarioOptional = propietarioService.obtenerPropietarioPorEmailUsuario(emailUsuarioAutenticado);
+
+        if (propietarioOptional.isPresent()) {
+            Propietario propietario = propietarioOptional.get();
+            model.addAttribute("propietario", propietario);
+            model.addAttribute("usuario", propietario.getUsuario());
+
+            // 1. Obtener los departamentos de este propietario
+            List<Departamento> departamentos = departamentoService.findByPropietario(propietario);
+
+            // 2. Usar el AlicuotaService para obtener TODAS las alícuotas de esos departamentos
+            List<Alicuota> todasLasAlicuotas = alicuotaService.findAlicuotasByDepartamentos(departamentos);
+            model.addAttribute("alicuotas", todasLasAlicuotas); 
+
+            return "alicuotas-propietario"; 
+        } else {
+            model.addAttribute("mensajeError", "No se encontró la información de propietario para el usuario actual.");
+            return "error";
+        }
+    }    
 }

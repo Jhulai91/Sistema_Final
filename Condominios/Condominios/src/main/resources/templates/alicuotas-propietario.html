@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,13 +8,29 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Información del Propietario</title>
-
+    <title>Mis Alícuotas</title>
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+        /* Estilos para el estado de la alícuota */
+        .estado-PAGADO {
+            color: green;
+            font-weight: bold;
+        }
+        .estado-PENDIENTE {
+            color: orange;
+            font-weight: bold;
+        }
+        .estado-VENCIDO {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
 </head>
+
 <body id="page-top">
     <div id="wrapper">
 
@@ -23,7 +40,9 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Sistema Edificios <sup>1.0</sup></div>
+                <div class="sidebar-brand-text mx-3">
+                    Sistema Edificios <sup>1.0</sup>
+                </div>
             </a>
 
             <hr class="sidebar-divider my-0">
@@ -39,15 +58,17 @@
 
             <div class="sidebar-heading">Información</div>
 
-            <li class="nav-item active">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Información</span>
                 </a>
-                <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Selecciona la acción:</h6>
-                        <a class="collapse-item active" th:href="@{/propietario/informacion}">Información propietario</a>
+                        <a class="collapse-item" th:href="@{/propietario/informacion}">Información propietario</a>
+                        <a class="collapse-item" href="cards.html">Información departamento</a>
                     </div>
                 </div>
             </li>
@@ -56,12 +77,13 @@
 
             <div class="sidebar-heading">Pagos</div>
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+            <li class="nav-item active">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Alícuotas</span>
                 </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 					<div class="bg-white py-2 collapse-inner rounded">
 						<h6 class="collapse-header">Selecciona una opción:</h6>
 						<a class="collapse-item active"
@@ -84,7 +106,6 @@
             <div id="content">
 
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
@@ -98,6 +119,10 @@
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${usuarioAutenticado.nombre}">Usuario</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" th:href="@{/propietario/informacion}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Perfil
+                                </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -110,73 +135,55 @@
                 <div class="container-fluid">
 
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Perfil de Propietario</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Estado de Mis Alícuotas</h1>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Detalles de la Cuenta</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Detalle de Alícuotas por Departamento</h6>
                                 </div>
                                 <div class="card-body">
-                                    <div th:if="${propietario}">
-                                        <dl class="row">
-                                            <dt class="col-sm-3">Nombre Completo:</dt>
-                                            <dd class="col-sm-9" th:text="${usuario.nombre}"></dd>
-                                            <dt class="col-sm-3">Correo Electrónico:</dt>
-                                            <dd class="col-sm-9" th:text="${usuario.email}"></dd>
-                                            <dt class="col-sm-3">Cédula:</dt>
-                                            <dd class="col-sm-9" th:text="${propietario.cedula}"></dd>
-                                            <dt class="col-sm-3">Teléfono:</dt>
-                                            <dd class="col-sm-9" th:text="${propietario.telefono}"></dd>
-                                            <dt class="col-sm-3">Rol:</dt>
-                                            <dd class="col-sm-9" th:text="${usuario.rol}"></dd>
-                                        </dl>
-                                    </div>
-                                    <div th:if="${mensajeError}" class="alert alert-danger" role="alert">
-                                        <p th:text="${mensajeError}"></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-12 mb-4">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Departamentos Asignados</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div th:if="${departamentos != null and !departamentos.isEmpty()}">
+                                    <div th:if="${alicuotas != null and !alicuotas.isEmpty()}">
                                         <div class="table-responsive">
                                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                                 <thead>
                                                     <tr>
-                                                        <th>Número</th>
-                                                        <th>Metros Cuadrados</th>
-                                                        <th>% Alícuota</th>
+                                                        <th>Departamento</th>
+                                                        <th>Mes</th>
+                                                        <th>Año</th>
+                                                        <th>Valor Calculado</th>
+                                                        <th>Estado</th>
+                                                        <th>Fecha de Pago</th>
+                                                        <th>Observaciones Pago</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr th:each="depto : ${departamentos}">
-                                                        <td th:text="${depto.numero}">Apt 101</td>
-                                                        <td th:text="${depto.metrosCuadrados}">85.50</td>
-                                                        <td th:text="${depto.porcentajeAlicuota}">0.05</td>
+                                                    <tr th:each="alicuota : ${alicuotas}">
+                                                        <td th:text="${alicuota.departamento?.numero}"></td>
+                                                        <td th:text="${alicuota.mes}"></td>
+                                                        <td th:text="${alicuota.anio}"></td>
+                                                        <td th:text="${#numbers.formatDecimal(alicuota.valorCalculado, 1, 2)}"></td>
+                                                        <td th:classappend="${alicuota.pago != null} ? 'estado-' + ${alicuota.pago.estado} : 'estado-PENDIENTE'">
+                                                            <span th:text="${alicuota.pago != null ? alicuota.pago.estado : 'PENDIENTE'}"></span>
+                                                        </td>
+                                                        <td th:text="${alicuota.pago != null ? #temporals.format(alicuota.pago.fechaPago, 'dd/MM/yyyy') : 'N/A'}"></td>
+                                                        <td th:text="${alicuota.pago != null ? alicuota.pago.observaciones : 'N/A'}"></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
-                                    <div th:if="${departamentos == null or departamentos.isEmpty()}" class="alert alert-info" role="alert">
-                                        <p>Este propietario no tiene departamentos asignados.</p>
+                                    <div th:if="${alicuotas == null or alicuotas.isEmpty()}" class="alert alert-info" role="alert">
+                                        <p>No se encontraron alícuotas para sus departamentos.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+
+                    </div>
                 </div>
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
@@ -191,7 +198,8 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -200,7 +208,7 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión actual.</div>
+                <div class="modal-body">Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión actual..</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                     <a class="btn btn-primary" th:href="@{/logout}">Cerrar sesión</a>
@@ -216,5 +224,11 @@
 
     <script src="/js/sb-admin-2.min.js"></script>
 
+    <script src="/vendor/chart.js/Chart.min.js"></script>
+
+    <script src="/js/demo/chart-area-demo.js"></script>
+    <script src="/js/demo/chart-pie-demo.js"></script>
+
 </body>
+
 </html>
