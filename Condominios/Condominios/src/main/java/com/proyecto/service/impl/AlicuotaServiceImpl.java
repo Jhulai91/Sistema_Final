@@ -1,6 +1,8 @@
 package com.proyecto.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,14 +54,45 @@ public class AlicuotaServiceImpl implements AlicuotaService {
 
     @Override
     public List<Alicuota> findAlicuotasCanceladasByDepartamentos(List<Departamento> departamentos) {
-        // Implementación del método usando el repositorio
-        // Usamos el estado "PAGADO" para filtrar las alícuotas canceladas
         return alicuotaRepository.findByDepartamentoInAndPagoEstado(departamentos, "PAGADO");
     }
 
     @Override
     public List<Alicuota> findAlicuotasByDepartamentos(List<Departamento> departamentos) {
-        // Implementación opcional para obtener todas las alícuotas de esos departamentos
         return alicuotaRepository.findByDepartamentoIn(departamentos);
+    }
+    
+    @Override
+    public Map<String, Long> getAlicuotasCountByStateForDepartamentos(List<Departamento> departamentos) {
+        List<Object[]> results = alicuotaRepository.countAlicuotasByStateForDepartamentos(departamentos);
+        Map<String, Long> countMap = new HashMap<>();
+        // Inicializar con 0 para asegurar que todos los estados estén presentes
+        countMap.put("PAGADO", 0L);
+        countMap.put("PENDIENTE", 0L);
+        countMap.put("VENCIDO", 0L);
+
+        for (Object[] result : results) {
+            String estado = (String) result[0];
+            Long count = (Long) result[1];
+            countMap.put(estado, count);
+        }
+        return countMap;
+    }
+
+    @Override
+    public Map<String, Double> getAlicuotasSumValueByStateForDepartamentos(List<Departamento> departamentos) {
+        List<Object[]> results = alicuotaRepository.sumAlicuotasValueByStateForDepartamentos(departamentos);
+        Map<String, Double> sumMap = new HashMap<>();
+        // Inicializar con 0.0 para asegurar que todos los estados estén presentes
+        sumMap.put("PAGADO", 0.0);
+        sumMap.put("PENDIENTE", 0.0);
+        sumMap.put("VENCIDO", 0.0);
+
+        for (Object[] result : results) {
+            String estado = (String) result[0];
+            Double sum = (Double) result[1];
+            sumMap.put(estado, sum);
+        }
+        return sumMap;
     }
 }

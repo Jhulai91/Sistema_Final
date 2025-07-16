@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,120 +19,10 @@
 
 <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
-<style>
-.calendar-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 1rem;
-	background-color: #ffffff;
-	border-radius: 0.5rem;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.calendar-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%;
-	padding-bottom: 1rem;
-	border-bottom: 1px solid #e2e8f0;
-	margin-bottom: 1rem;
-}
-
-.calendar-header button {
-	background-color: #4e73df;
-	color: white;
-	padding: 0.5rem 0.75rem;
-	border-radius: 0.375rem;
-	cursor: pointer;
-	transition: background-color 0.2s;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 2.5rem;
-	height: 2.5rem;
-	border: none;
-	font-size: 1rem;
-}
-
-.calendar-header button:hover {
-	background-color: #2e59d9;
-}
-
-.calendar-header h2 {
-	font-size: 1.5rem;
-	font-weight: bold;
-	color: #5a5c69;
-	margin: 0;
-}
-
-.calendar-grid {
-	width: 100%;
-	border-collapse: collapse;
-}
-
-.calendar-grid th, .calendar-grid td {
-	text-align: center;
-	padding: 0.75rem 0.25rem;
-	border: 1px solid #eaecf4;
-	transition: background-color 0.2s, box-shadow 0.2s;
-}
-
-.calendar-grid th {
-	background-color: #f8f9fc;
-	font-weight: bold;
-	color: #858796;
-	text-transform: uppercase;
-	font-size: 0.75rem;
-}
-
-.calendar-grid td {
-	/*   cursor: pointer;*/
-	color: #6e707e;
-	font-size: 0.9rem;
-}
-/*     .calendar-grid td:hover:not(.empty):not(.today):not(.selected) {
-            background-color: #f6f8fa; fondo al pasar el mouse
-        }*/
-.calendar-grid td.empty {
-	background-color: #f8f9fc;
-	color: #ced4da;
-	cursor: not-allowed;
-}
-
-.calendar-grid td.today {
-	background-color: #1cc88a;
-	color: white;
-	font-weight: bold;
-	border-color: #1cc88a;
-	box-shadow: 0 2px 4px rgba(28, 200, 138, 0.4);
-}
-/*       .calendar-grid td.selected { marcar de amarillo
-            background-color: #ffc107;
-            color: #343a40;
-            font-weight: bold;
-            border-color: #ffc107;
-            box-shadow: 0 2px 4px rgba(255, 193, 7, 0.4);
-        }*/
-
-/* Responsive adjustments for small screens */
-@media ( max-width : 768px) {
-	.calendar-grid th, .calendar-grid td {
-		padding: 0.4rem 0.1rem;
-		font-size: 0.75rem;
-	}
-	.calendar-header h2 {
-		font-size: 1.1rem;
-	}
-	.calendar-header button {
-		width: 2rem;
-		height: 2rem;
-	}
-}
-</style>
 </head>
+
 <body id="page-top">
+
 	<div id="wrapper">
 
 		<ul
@@ -140,7 +31,7 @@
 
 			<a
 				class="sidebar-brand d-flex align-items-center justify-content-center"
-				href="#">
+				href="index.html">
 				<div class="sidebar-brand-icon rotate-n-15">
 					<i class="fas fa-laugh-wink"></i>
 				</div>
@@ -152,9 +43,8 @@
 			<hr class="sidebar-divider my-0">
 
 			<li class="nav-item active"><a class="nav-link"
-				th:href="@{/propietario/home}"> <i
-					class="fas fa-fw fa-tachometer-alt"></i> <span>Inicio</span>
-			</a></li>
+				href="/propietario/home"> <i class="fas fa-fw fa-tachometer-alt"></i>
+					<span>Inicio</span></a></li>
 
 			<hr class="sidebar-divider">
 
@@ -178,13 +68,13 @@
 
 			<div class="sidebar-heading">Pagos</div>
 
-			<li class="nav-item"><a class="nav-link collapsed" href="#"
-				data-toggle="collapse" data-target="#collapsePages"
-				aria-expanded="true" aria-controls="collapsePages"> <i
-					class="fas fa-fw fa-folder"></i> <span>Alícuotas</span>
-			</a>
-				<div id="collapsePages" class="collapse"
-					aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <li class="nav-item active">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Alícuotas</span>
+                </a>
+                <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 					<div class="bg-white py-2 collapse-inner rounded">
 						<h6 class="collapse-header">Selecciona una opción:</h6>
 						<a class="collapse-item active"
@@ -192,13 +82,15 @@
 							Pagadas</a> <a class="collapse-item active"
 							th:href="@{/propietario/alicuotas}">Mis Alícuotas</a>
 					</div>
-				</div></li>
+                </div>
+            </li>
 
 			<hr class="sidebar-divider d-none d-md-block">
 
 			<div class="text-center d-none d-md-inline">
 				<button class="rounded-circle border-0" id="sidebarToggle"></button>
 			</div>
+
 		</ul>
 		<div id="content-wrapper" class="d-flex flex-column">
 
@@ -226,6 +118,10 @@
 							<div
 								class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
 								aria-labelledby="userDropdown">
+								<a class="dropdown-item" th:href="@{/propietario/informacion}">
+									<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+									Perfil
+								</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="#" data-toggle="modal"
 									data-target="#logoutModal"> <i
@@ -233,13 +129,15 @@
 									Salir
 								</a>
 							</div></li>
+
 					</ul>
+
 				</nav>
 				<div class="container-fluid">
 
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
-						<h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+						<h1 class="h3 mb-0 text-gray-800">Dashboard del Propietario</h1>
 					</div>
 
 					<div class="row">
@@ -251,11 +149,12 @@
 										<div class="col mr-2">
 											<div
 												class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-												Earnings (Monthly)</div>
-											<div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+												Alícuotas Pagadas</div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800"
+												th:text="${alicuotasCountByState != null ? alicuotasCountByState.get('PAGADO') : 0}">0</div>
 										</div>
 										<div class="col-auto">
-											<i class="fas fa-calendar fa-2x text-gray-300"></i>
+											<i class="fas fa-check-circle fa-2x text-gray-300"></i>
 										</div>
 									</div>
 								</div>
@@ -269,11 +168,12 @@
 										<div class="col mr-2">
 											<div
 												class="text-xs font-weight-bold text-success text-uppercase mb-1">
-												Earnings (Annual)</div>
-											<div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+												Alícuotas Pendientes</div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800"
+												th:text="${alicuotasCountByState != null ? alicuotasCountByState.get('PENDIENTE') : 0}">0</div>
 										</div>
 										<div class="col-auto">
-											<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+											<i class="fas fa-hourglass-half fa-2x text-gray-300"></i>
 										</div>
 									</div>
 								</div>
@@ -286,23 +186,36 @@
 									<div class="row no-gutters align-items-center">
 										<div class="col mr-2">
 											<div
-												class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-											</div>
+												class="text-xs font-weight-bold text-info text-uppercase mb-1">Alícuotas
+												Vencidas</div>
 											<div class="row no-gutters align-items-center">
 												<div class="col-auto">
-													<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-												</div>
-												<div class="col">
-													<div class="progress progress-sm mr-2">
-														<div class="progress-bar bg-info" role="progressbar"
-															style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-															aria-valuemax="100"></div>
-													</div>
+													<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"
+														th:text="${alicuotasCountByState != null ? alicuotasCountByState.get('VENCIDO') : 0}">0</div>
 												</div>
 											</div>
 										</div>
 										<div class="col-auto">
-											<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+											<i class="fas fa-times-circle fa-2x text-gray-300"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-warning shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div
+												class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+												Valor Pendiente Total</div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800"
+												th:text="${alicuotasSumValueByState != null ? #numbers.formatDecimal(alicuotasSumValueByState.get('PENDIENTE') + alicuotasSumValueByState.get('VENCIDO'), 1, 2) : 0.00}">$0.00</div>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
 										</div>
 									</div>
 								</div>
@@ -311,18 +224,25 @@
 					</div>
 
 					<div class="row">
-						<div class="col-xl-12 col-lg-7">
+
+						<div class="col-xl-6 col-lg-5">
 							<div class="card shadow mb-4">
-								<div
-									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-									<h6 class="m-0 font-weight-bold text-primary">Calendario</h6>
+								<div class="card-header py-3">
+									<h6 class="m-0 font-weight-bold text-primary">Estado de
+										Alícuotas por Cantidad</h6>
 								</div>
 								<div class="card-body">
-									<div id="calendar-app" class="calendar-container"></div>
+									<div class="chart-pie pt-4 pb-2">
+										<canvas id="myPieChart"></canvas>
+									</div>
+									<hr>
+									Visión general de las alícuotas según su estado de pago.
 								</div>
 							</div>
 						</div>
+
 					</div>
+
 				</div>
 			</div>
 			<footer class="sticky-footer bg-white">
@@ -351,7 +271,7 @@
 					</button>
 				</div>
 				<div class="modal-body">Seleccione "Cerrar sesión" a
-					continuación si está listo para finalizar su sesión actual.</div>
+					continuación si está listo para finalizar su sesión actual..</div>
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">Cancelar</button>
@@ -368,105 +288,51 @@
 
 	<script src="/js/sb-admin-2.min.js"></script>
 
-	<script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const calendarApp = document.getElementById('calendar-app');
-            const today = new Date();
-            let currentMonth = today.getMonth();
-            let currentYear = today.getFullYear();
+	<script src="/vendor/chart.js/Chart.min.js"></script>
 
-            // Function to render the calendar
-            function renderCalendar(month, year) {
-                const firstDayOfMonth = new Date(year, month, 1);
-                const daysInMonth = new Date(year, month + 1, 0).getDate();
-                const firstDayOfWeek = firstDayOfMonth.getDay(); // 0 for Sunday, 1 for Monday, etc.
+	<script th:inline="javascript">
+    /*<![CDATA[*/
 
-                const monthNames = [
-                    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-                    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-                ];
-                // Weekday names starting with Monday
-                const dayNames = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
+    var alicuotasCountByState = /*[[${alicuotasCountByState}]]*/ {};
 
-                let calendarHTML = `
-                    <div class="calendar-header">
-                        <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
-                        <h2>${monthNames[month]} ${year}</h2>
-                        <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
-                    </div>
-                    <table class="calendar-grid">
-                        <thead>
-                            <tr>
-                                ${dayNames.map(day => `<th>${day}</th>`).join('')}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                `;
-
-                // Calculate the number of empty cells at the beginning so that Monday is the first day
-                // (getDay() + 6) % 7 remaps 0 (Sun) to 6, 1 (Mon) to 0, etc.
-                const startDayOffset = (firstDayOfWeek + 6) % 7;
-
-                for (let i = 0; i < startDayOffset; i++) {
-                    calendarHTML += `<td class="empty">&nbsp;</td>`;
-                }
-
-                // Add days of the month
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const date = new Date(year, month, day);
-                    const isToday = date.toDateString() === today.toDateString();
-                    const dayClass = isToday ? 'today' : '';
-
-                    // Calculate the position in the grid to determine if it's a new row
-                    // (startDayOffset + day - 1) is the total index from the beginning of the grid
-                    if ((startDayOffset + day - 1) % 7 === 0 && day !== 1) {
-                        calendarHTML += `</tr><tr>`; // New row for each week
-                    }
-                    calendarHTML += `<td class="${dayClass}" data-date="${year}-${month + 1}-${day}">${day}</td>`;
-                }
-
-                // Add empty cells for days after the last day of the month to complete the last row
-                const totalCells = startDayOffset + daysInMonth;
-                const remainingCells = 7 - (totalCells % 7);
-                if (remainingCells < 7) { // Only add if it's not a full row at the end
-                    for (let i = 0; i < remainingCells; i++) {
-                        calendarHTML += `<td class="empty">&nbsp;</td>`;
-                    }
-                }
-
-                calendarHTML += `
-                            </tr>
-                        </tbody>
-                    </table>
-                `;
-
-                calendarApp.innerHTML = calendarHTML;
-
-                // Add event listeners for month navigation
-                document.getElementById('prevMonth').addEventListener('click', () => {
-                    currentMonth--;
-                    if (currentMonth < 0) {
-                        currentMonth = 11;
-                        currentYear--;
-                    }
-                    renderCalendar(currentMonth, currentYear);
-                });
-
-                document.getElementById('nextMonth').addEventListener('click', () => {
-                    currentMonth++;
-                    if (currentMonth > 11) {
-                        currentMonth = 0;
-                        currentYear++;
-                    }
-                    renderCalendar(currentMonth, currentYear);
-                });
-
-           }
-
-            // Initial rendering of the calendar
-            renderCalendar(currentMonth, currentYear);
-        });
+    // Configuración para el gráfico de pastel (Pie Chart) de Chart.js
+    var ctx = document.getElementById("myPieChart");
+    var myPieChart = new Chart(ctx, {
+      type: 'doughnut', // 'doughnut' para un gráfico de rosquilla, 'pie' para pastel completo
+      data: {
+        labels: ["Pagadas", "Pendientes", "Vencidas"],
+        datasets: [{
+          data: [
+              alicuotasCountByState.PAGADO,
+              alicuotasCountByState.PENDIENTE,
+              alicuotasCountByState.VENCIDO
+          ],
+          backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'], // Colores para cada sección
+          hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+          hoverBorderColor: "rgba(234, 236, 244, 1)",
+        }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#858796",
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: false,
+          caretPadding: 10,
+        },
+        legend: {
+          display: false // No mostrar la leyenda predeterminada, la manejamos en el HTML
+        },
+        cutoutPercentage: 80, // Para doughnut chart
+      },
+    });
+    /*]]>*/
     </script>
+
 </body>
+
 </html>

@@ -1,6 +1,7 @@
 package com.proyecto.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.proyecto.entity.Alicuota;
 import com.proyecto.entity.Departamento;
@@ -16,4 +17,10 @@ public interface AlicuotaService {
 
     // Opcional: Si quieres obtener todas las alícuotas de una lista de departamentos (pagadas o no)
     List<Alicuota> findAlicuotasByDepartamentos(List<Departamento> departamentos);
+
+    // NUEVO MÉTODO: Para obtener el conteo de alícuotas por estado para los departamentos de un propietario
+    Map<String, Long> getAlicuotasCountByStateForDepartamentos(List<Departamento> departamentos);
+
+    // Opcional: Si quieres el valor total por estado
+    Map<String, Double> getAlicuotasSumValueByStateForDepartamentos(List<Departamento> departamentos);
 }

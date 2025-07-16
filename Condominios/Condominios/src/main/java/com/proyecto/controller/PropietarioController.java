@@ -1,6 +1,7 @@
 package com.proyecto.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,6 @@ import com.proyecto.service.AlicuotaService;
 import com.proyecto.service.DepartamentoService;
 import com.proyecto.service.PdfGeneratorService;
 import com.proyecto.service.PropietarioService;
-import com.uisrael.gestion_biblioteca.entity.Autor;
 
 @Controller
 public class PropietarioController {
@@ -52,15 +52,30 @@ public class PropietarioController {
 	}
 
 	@GetMapping("/propietario/home")
-	public String propietarioHome() {
-		return "propietario-home";
-	}
+	public String propietarioHome(Model model) { 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String emailUsuarioAutenticado = authentication.getName();
 
-	// Mostrar formulario nuevo autor
-	@GetMapping("/nuevo")
-	public String mostrarFormulario(Model model) {
-		model.addAttribute("autor", new Autor());
-		return "ingreso_propietario";
+        Optional<Propietario> propietarioOptional = propietarioService.obtenerPropietarioPorEmailUsuario(emailUsuarioAutenticado);
+
+        if (propietarioOptional.isPresent()) {
+            Propietario propietario = propietarioOptional.get();
+            // Obtener los departamentos del propietario
+            List<Departamento> departamentos = departamentoService.findByPropietario(propietario);
+
+            // Obtener el conteo de alícuotas por estado
+            Map<String, Long> alicuotasCountByState = alicuotaService.getAlicuotasCountByStateForDepartamentos(departamentos);
+            model.addAttribute("alicuotasCountByState", alicuotasCountByState);
+
+            // Opcional: Obtener la suma de valores por estado
+            Map<String, Double> alicuotasSumValueByState = alicuotaService.getAlicuotasSumValueByStateForDepartamentos(departamentos);
+            model.addAttribute("alicuotasSumValueByState", alicuotasSumValueByState);
+
+        } else {
+            // Manejar caso donde no se encuentra el propietario, si es necesario
+            model.addAttribute("mensajeError", "No se encontró la información de propietario para el usuario actual.");
+        }
+		return "propietario-home";
 	}
 
 	@ModelAttribute
